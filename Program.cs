@@ -1,4 +1,5 @@
 ﻿using System;
+using Otus30.Models;
 
 namespace Otus30
 {
@@ -6,79 +7,30 @@ namespace Otus30
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Test1();
+            Test2();
         }
 
-        public interface IMyCloneable
+        private static void Test1()
         {
-            public object Clone();
-        }
-        /// <summary>
-        ///     Помещение
-        /// </summary>
-        public class Placement:IMyCloneable
-        {
-            /// <summary>
-            ///     Площадь
-            /// </summary>
-            public double Area { get; set; }
+            var p1 = new Placement(1.01);
+            var p2 = (Placement)p1.Clone();
 
-            public virtual object Clone()
-            {
-                return new Placement
-                {
-                    Area = Area
-                };
-            }
+            Console.WriteLine(p1.Area.Equals(p2.Area)
+                ? "Placement ICloneable test passed"
+                : "Placement ICloneable test failed");
         }
 
-        /// <summary>
-        ///     Жилое помещение
-        /// </summary>
-        public class Accomodation : Placement
+        private static void Test2()
         {
-            /// <summary>
-            ///     Количество комнат
-            /// </summary>
-            public int RoomCount { get; set; }
+            var h1 = new House(154.7, 3, 290);
+            var h2 = h1.MyClone();
 
-            public override object Clone()
-            {
-                return base.Clone();
-            }
-        }
-
-        /// <summary>
-        ///     Квартира
-        /// </summary>
-        public class Flat : Accomodation
-        {
-            /// <summary>
-            ///     Этаж
-            /// </summary>
-            public int Floor { get; set; }
-        }
-
-        /// <summary>
-        ///     Дом
-        /// </summary>
-        public class House : Accomodation
-        {
-            /// <summary>
-            ///     Площадь участка
-            /// </summary>
-            public double BackyardArea { get; set; }
-        }
-
-        /// <summary>
-        ///     Гараж
-        /// </summary>
-        public class Garage : Placement
-        {
-            /// <summary>
-            ///     Отопление
-            /// </summary>
-            public bool Heating { get; set; }
+            Console.WriteLine(h1.Area.Equals(h1.Area) &&
+                              h1.RoomCount.Equals(h2.RoomCount) &&
+                              h1.BackyardArea.Equals(h2.BackyardArea)
+                ? "House IMyCloneable test passed"
+                : "House IMyCloneable test failed");
         }
     }
 }
